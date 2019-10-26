@@ -1,0 +1,97 @@
+apply plugin: 'com.android.application'
+
+// Versioning scheme
+def versionMajor = 0 //for major revamps, new feat added
+def versionMinor = 0 //for minor changes, UI changes
+def versionPatch = 0 //for bug fixes
+def versionBuild = 1 //bump for dogfood builds, public betas, etc.
+
+def baseName = rootProject.ext.androidAppName
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "github.com.kebbbnnn.lightgallery"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        project.ext.set("archivesBaseName", baseName + "-v" + defaultConfig.versionName);
+    }
+    buildTypes {
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationIdSuffix '.debug'
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+    }
+    lintOptions {
+        abortOnError false
+    }
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    implementation("com.davemorrissey.labs:subsampling-scale-image-view:3.10.0") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'exifinterface'
+    }
+    implementation("com.android.support:exifinterface:28.0.0") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name == 'assembleRelease') {
+        task.finalizedBy(copyReleaseApkToDir)
+        task.finalizedBy(generateRedexScript)
+    }
+}
+
+task copyReleaseApkToDir() {
+    doLast {
+        copy {
+            from("${projectDir}") {
+                include '*-release.apk'
+            }
+            into "${project.rootDir}/redex"
+        }
+    }
+}
+
+task generateRedexScript {
+    doLast {
+        def input = "${baseName}-v${project.android.defaultConfig.versionName}-release.apk"
+        def output = "${baseName}-out-v${project.android.defaultConfig.versionName}-release.apk"
+        println("${project.rootDir}/redex/redex.command")
+        def file = new File("${project.rootDir}/redex/redex.command")
+
+        file.createNewFile()
+        file.text = "redex --sign -s light-keystore.jks -a lightning -p SURPRISEMOTHERFUCKER ${input} -o ${output}"
+    }
+}

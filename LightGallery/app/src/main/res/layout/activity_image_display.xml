@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/root"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/layout_middle">
+
+
+    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+        xmlns:ssiv="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:drawingCacheQuality="auto"
+        ssiv:panEnabled="true"
+        ssiv:quickScaleEnabled="true"
+        ssiv:zoomEnabled="true"/>
+
+    <TextView
+        android:id="@+id/note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/layout_bottom"
+        android:padding="10dp"
+        android:text="This image is 7,557 x 5,669 pixels. On most devices it will be subsampled, and higher quality tiles are loaded as you zoom in."
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"/>
+
+    <!--<org.lucasr.smoothie.HorizontalListView-->
+    <!--android:id="@+id/horizontalList"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"/>-->
+
+</FrameLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+
+    <!--Color combis-->
+    <color name="layout_top">#45ADA8</color>
+    <color name="layout_middle">#547980</color>
+    <color name="layout_bottom">#80594F4F</color> <!-- 50% transparency-->
+
+    <color name="actionbar_color">#3FBA91</color>
+
+    <color name="titlestrip_background_color">#DEDEDE</color>
+    <color name="titlestrip_text_color">#999999</color>
+
+    <color name="tweet_author_text_color">#999999</color>
+    <color name="tweet_message_text_color">#333333</color>
+
+    <color name="tweet_on_main_thread">#FF0000</color>
+    <color name="tweet_off_main_thread">#66CD00</color>
+
+    <drawable name="tweet_placeholder_image">#dddddd</drawable>
+
+</resources>

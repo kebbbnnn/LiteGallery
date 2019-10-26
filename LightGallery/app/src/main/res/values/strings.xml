@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Lite Gallery</string>
+    <string name="permission_read_storage">Do you want to manually set permission to read storage?</string>
+</resources>

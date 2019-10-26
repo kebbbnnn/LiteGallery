@@ -1,0 +1,1 @@
+redex --sign -s light-keystore.jks -a lightning -p SURPRISEMOTHERFUCKER lightgallery-v0.0.0.1-release.apk -o lightgallery-out-v0.0.0.1-release.apk
